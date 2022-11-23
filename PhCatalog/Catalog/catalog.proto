@@ -22,7 +22,7 @@ message Drug{
 }
 
 message DrugList{
-  Drug drug = 1;
+  repeated Drug drug = 1;
 }
 
 message Response{
