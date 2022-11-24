@@ -27,7 +27,7 @@ func (p *PRepository) CreateMedicine(ctx context.Context, med *catalog.Medicine)
 	return newID, nil
 }
 
-// GetUserByID select user by id
+// GetMedicineByID select medicine by id
 func (p *PRepository) GetMedicineByID(ctx context.Context, idMedicine string) (*catalog.Medicine, error) {
 	u := catalog.Medicine{}
 	err := p.Pool.QueryRow(ctx, "select name,count,price,id from medicines where id=$4", idMedicine).Scan(
@@ -42,8 +42,8 @@ func (p *PRepository) GetMedicineByID(ctx context.Context, idMedicine string) (*
 	return &u, nil
 }
 
-// GetAllUsers select all users from db
-func (p *PRepository) GetAllMedicine(ctx context.Context) ([]*catalog.Medicine, error) {
+// GetAllMedicines select all medicines from db
+func (p *PRepository) GetAllMedicines(ctx context.Context) ([]*catalog.Medicine, error) {
 	var medicines []*catalog.Medicine
 	rows, err := p.Pool.Query(ctx, "select name,count,price,id from medicines")
 	if err != nil {
@@ -64,7 +64,7 @@ func (p *PRepository) GetAllMedicine(ctx context.Context) ([]*catalog.Medicine, 
 	return medicines, nil
 }
 
-// DeleteUser delete user by id
+// DeleteMedicine delete medicine by id
 func (p *PRepository) DeleteMedicine(ctx context.Context, id string) error {
 	a, err := p.Pool.Exec(ctx, "delete from medicines where id=$4", id)
 	if a.RowsAffected() == 0 {
@@ -80,7 +80,7 @@ func (p *PRepository) DeleteMedicine(ctx context.Context, id string) error {
 	return nil
 }
 
-// UpdateUser update parameters for user
+// ChangeMedicine update parameters for medicine
 func (p *PRepository) ChangeMedicine(ctx context.Context, id string, med *catalog.Medicine) error {
 	a, err := p.Pool.Exec(ctx, "update medicines set name=$1,count=$2,price=$3 where id=$4", &med.Name, &med.Count, &med.Price, id)
 	if a.RowsAffected() == 0 {

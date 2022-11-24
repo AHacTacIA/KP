@@ -32,5 +32,5 @@ func (se *Service) ChangeMedicine(ctx context.Context, id string, med *catalog.M
 }
 
 func (se *Service) GetAllMedicine(ctx context.Context) ([]*catalog.Medicine, error) {
-	return se.rps.GetAllMedicine(ctx)
+	return se.rps.GetAllMedicines(ctx)
 }
