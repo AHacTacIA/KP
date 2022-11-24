@@ -18,8 +18,22 @@ func NewServer(serv *service.Service) *Server {
 	return &Server{se: serv}
 }
 
-// GetUser get user by id from db
-func (s *Server) GetUser(ctx context.Context, request *pb.GetRequest) (*pb.GetResponse, error) {
+// CreateMedicine create new medicine
+func (s *Server) CreateMedicine(ctx context.Context, request *pb.CreateRequest) (*pb.CreateResponse, error) {
+	m := catalog.Medicine{
+		Name:  request.Name,
+		Count: request.Count,
+		Price: request.Price,
+	}
+	newID, err := s.se.CreateMedicine(ctx, &m)
+	if err != nil {
+		return nil, err
+	}
+	return &pb.CreateResponse{Id: newID}, nil
+}
+
+// GetMedicine get medicine by id from db
+func (s *Server) GetMedicine(ctx context.Context, request *pb.GetRequest) (*pb.GetResponse, error) {
 	idMedicine := request.GetId()
 	medicineDB, err := s.se.GetMedicine(ctx, idMedicine)
 	if err != nil {
