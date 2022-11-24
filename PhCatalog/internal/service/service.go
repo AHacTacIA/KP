@@ -23,7 +23,7 @@ func (se *Service) GetMedicine(ctx context.Context, id string) (*catalog.Medicin
 
 // GetAllMedicine _
 func (se *Service) GetAllMedicine(ctx context.Context) ([]*catalog.Medicine, error) {
-	return se.rps.GetAllMedicines(ctx)
+	return se.rps.GetAllMedicine(ctx)
 }
 
 // DeleteMedicine _

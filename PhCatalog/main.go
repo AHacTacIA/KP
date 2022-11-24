@@ -58,7 +58,7 @@ func main() {
 // DBConnection create connection with db
 func DBConnection(cfg *catalog.Config) repository.Repository {
 	log.Info(cfg.PostgresDBURL)
-	poolP, err := pgxpool.Connect(context.Background(), cfg.PostgresDBURL) // "postgresql://postgres:123@localhost:5432/catalog"
+	poolP, err := pgxpool.Connect(context.Background(), cfg.PostgresDBURL)
 	if err != nil {
 		log.Fatalf("bad connection with postgresql: %v", err)
 		return nil
