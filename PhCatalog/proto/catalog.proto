@@ -4,31 +4,31 @@ package catalog;
 option go_package =".";
 
 service PharmacyCatalog{
-  rpc Add(Request) returns (Response) {}
-  rpc Delete(Request) returns (Response) {}
-  rpc Modify(Request) returns (Response) {}
-  rpc Find(Request) returns (Drug) {}
-  rpc All(Empty) returns (DrugList) {}
+  rpc CreateMedicine (Request) returns (Response){}
+  rpc GetMedicine (Request) returns (Response){}
+  rpc DeleteMedicine (Request) returns (Response){}
+  rpc ChangeMedicine (Request) returns (Response){}
+  rpc GetAllMedicine (Empty) returns (AllMedicine){}
+}
+
+message Medicine{
+  string name=1;
+  int32 count=2;
+  int32 price=3;
+  int32 id=4;
 }
 
 message Request{
-  Drug drug = 1;
+  Medicine med = 1;
+  string id = 2;
 }
 
-message Drug{
-  string name = 1;
-  int32 number = 2;
-  int32 price = 3;
-}
-
-message DrugList{
-  repeated Drug drug = 1;
-}
+message Empty{}
 
 message Response{
-string resp = 1;
+  string id=1;
 }
 
-message Empty{
-
+message AllMedicine{
+  repeated Medicine med = 1;
 }

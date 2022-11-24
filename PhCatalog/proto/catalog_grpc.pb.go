@@ -22,11 +22,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PharmacyCatalogClient interface {
-	Add(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
-	Delete(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
-	Modify(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
-	Find(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Drug, error)
-	All(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*DrugList, error)
+	CreateMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	GetMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	DeleteMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	ChangeMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error)
+	GetAllMedicine(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AllMedicine, error)
 }
 
 type pharmacyCatalogClient struct {
@@ -37,45 +37,45 @@ func NewPharmacyCatalogClient(cc grpc.ClientConnInterface) PharmacyCatalogClient
 	return &pharmacyCatalogClient{cc}
 }
 
-func (c *pharmacyCatalogClient) Add(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *pharmacyCatalogClient) CreateMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
-	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/Add", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/CreateMedicine", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *pharmacyCatalogClient) Delete(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *pharmacyCatalogClient) GetMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
-	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/Delete", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/GetMedicine", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *pharmacyCatalogClient) Modify(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+func (c *pharmacyCatalogClient) DeleteMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
 	out := new(Response)
-	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/Modify", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/DeleteMedicine", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *pharmacyCatalogClient) Find(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Drug, error) {
-	out := new(Drug)
-	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/Find", in, out, opts...)
+func (c *pharmacyCatalogClient) ChangeMedicine(ctx context.Context, in *Request, opts ...grpc.CallOption) (*Response, error) {
+	out := new(Response)
+	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/ChangeMedicine", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *pharmacyCatalogClient) All(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*DrugList, error) {
-	out := new(DrugList)
-	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/All", in, out, opts...)
+func (c *pharmacyCatalogClient) GetAllMedicine(ctx context.Context, in *Empty, opts ...grpc.CallOption) (*AllMedicine, error) {
+	out := new(AllMedicine)
+	err := c.cc.Invoke(ctx, "/catalog.PharmacyCatalog/GetAllMedicine", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,11 +86,11 @@ func (c *pharmacyCatalogClient) All(ctx context.Context, in *Empty, opts ...grpc
 // All implementations must embed UnimplementedPharmacyCatalogServer
 // for forward compatibility
 type PharmacyCatalogServer interface {
-	Add(context.Context, *Request) (*Response, error)
-	Delete(context.Context, *Request) (*Response, error)
-	Modify(context.Context, *Request) (*Response, error)
-	Find(context.Context, *Request) (*Drug, error)
-	All(context.Context, *Empty) (*DrugList, error)
+	CreateMedicine(context.Context, *Request) (*Response, error)
+	GetMedicine(context.Context, *Request) (*Response, error)
+	DeleteMedicine(context.Context, *Request) (*Response, error)
+	ChangeMedicine(context.Context, *Request) (*Response, error)
+	GetAllMedicine(context.Context, *Empty) (*AllMedicine, error)
 	mustEmbedUnimplementedPharmacyCatalogServer()
 }
 
@@ -98,20 +98,20 @@ type PharmacyCatalogServer interface {
 type UnimplementedPharmacyCatalogServer struct {
 }
 
-func (UnimplementedPharmacyCatalogServer) Add(context.Context, *Request) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Add not implemented")
+func (UnimplementedPharmacyCatalogServer) CreateMedicine(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CreateMedicine not implemented")
 }
-func (UnimplementedPharmacyCatalogServer) Delete(context.Context, *Request) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+func (UnimplementedPharmacyCatalogServer) GetMedicine(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetMedicine not implemented")
 }
-func (UnimplementedPharmacyCatalogServer) Modify(context.Context, *Request) (*Response, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Modify not implemented")
+func (UnimplementedPharmacyCatalogServer) DeleteMedicine(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteMedicine not implemented")
 }
-func (UnimplementedPharmacyCatalogServer) Find(context.Context, *Request) (*Drug, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Find not implemented")
+func (UnimplementedPharmacyCatalogServer) ChangeMedicine(context.Context, *Request) (*Response, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangeMedicine not implemented")
 }
-func (UnimplementedPharmacyCatalogServer) All(context.Context, *Empty) (*DrugList, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method All not implemented")
+func (UnimplementedPharmacyCatalogServer) GetAllMedicine(context.Context, *Empty) (*AllMedicine, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetAllMedicine not implemented")
 }
 func (UnimplementedPharmacyCatalogServer) mustEmbedUnimplementedPharmacyCatalogServer() {}
 
@@ -126,92 +126,92 @@ func RegisterPharmacyCatalogServer(s grpc.ServiceRegistrar, srv PharmacyCatalogS
 	s.RegisterService(&PharmacyCatalog_ServiceDesc, srv)
 }
 
-func _PharmacyCatalog_Add_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PharmacyCatalog_CreateMedicine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PharmacyCatalogServer).Add(ctx, in)
+		return srv.(PharmacyCatalogServer).CreateMedicine(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/catalog.PharmacyCatalog/Add",
+		FullMethod: "/catalog.PharmacyCatalog/CreateMedicine",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PharmacyCatalogServer).Add(ctx, req.(*Request))
+		return srv.(PharmacyCatalogServer).CreateMedicine(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PharmacyCatalog_Delete_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PharmacyCatalog_GetMedicine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PharmacyCatalogServer).Delete(ctx, in)
+		return srv.(PharmacyCatalogServer).GetMedicine(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/catalog.PharmacyCatalog/Delete",
+		FullMethod: "/catalog.PharmacyCatalog/GetMedicine",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PharmacyCatalogServer).Delete(ctx, req.(*Request))
+		return srv.(PharmacyCatalogServer).GetMedicine(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PharmacyCatalog_Modify_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PharmacyCatalog_DeleteMedicine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PharmacyCatalogServer).Modify(ctx, in)
+		return srv.(PharmacyCatalogServer).DeleteMedicine(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/catalog.PharmacyCatalog/Modify",
+		FullMethod: "/catalog.PharmacyCatalog/DeleteMedicine",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PharmacyCatalogServer).Modify(ctx, req.(*Request))
+		return srv.(PharmacyCatalogServer).DeleteMedicine(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PharmacyCatalog_Find_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PharmacyCatalog_ChangeMedicine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Request)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PharmacyCatalogServer).Find(ctx, in)
+		return srv.(PharmacyCatalogServer).ChangeMedicine(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/catalog.PharmacyCatalog/Find",
+		FullMethod: "/catalog.PharmacyCatalog/ChangeMedicine",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PharmacyCatalogServer).Find(ctx, req.(*Request))
+		return srv.(PharmacyCatalogServer).ChangeMedicine(ctx, req.(*Request))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _PharmacyCatalog_All_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _PharmacyCatalog_GetAllMedicine_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(Empty)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(PharmacyCatalogServer).All(ctx, in)
+		return srv.(PharmacyCatalogServer).GetAllMedicine(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/catalog.PharmacyCatalog/All",
+		FullMethod: "/catalog.PharmacyCatalog/GetAllMedicine",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PharmacyCatalogServer).All(ctx, req.(*Empty))
+		return srv.(PharmacyCatalogServer).GetAllMedicine(ctx, req.(*Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -224,24 +224,24 @@ var PharmacyCatalog_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*PharmacyCatalogServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "Add",
-			Handler:    _PharmacyCatalog_Add_Handler,
+			MethodName: "CreateMedicine",
+			Handler:    _PharmacyCatalog_CreateMedicine_Handler,
 		},
 		{
-			MethodName: "Delete",
-			Handler:    _PharmacyCatalog_Delete_Handler,
+			MethodName: "GetMedicine",
+			Handler:    _PharmacyCatalog_GetMedicine_Handler,
 		},
 		{
-			MethodName: "Modify",
-			Handler:    _PharmacyCatalog_Modify_Handler,
+			MethodName: "DeleteMedicine",
+			Handler:    _PharmacyCatalog_DeleteMedicine_Handler,
 		},
 		{
-			MethodName: "Find",
-			Handler:    _PharmacyCatalog_Find_Handler,
+			MethodName: "ChangeMedicine",
+			Handler:    _PharmacyCatalog_ChangeMedicine_Handler,
 		},
 		{
-			MethodName: "All",
-			Handler:    _PharmacyCatalog_All_Handler,
+			MethodName: "GetAllMedicine",
+			Handler:    _PharmacyCatalog_GetAllMedicine_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
