@@ -15,11 +15,11 @@ type PRepository struct {
 	Pool *pgxpool.Pool
 }
 
-// CreateMedicine add Medicine to db
+// CreateMedicine add medicine to db
 func (p *PRepository) CreateMedicine(ctx context.Context, med *catalog.Medicine) (string, error) {
 	newID := uuid.New().String()
-	_, err := p.Pool.Exec(ctx, "insert into medicines(name, count, price, id) values($1,$2,$3,$4)",
-		&med.Name, &med.Count, &med.Price, newID)
+	_, err := p.Pool.Exec(ctx, "insert into medicines(id,name,count,price) values($1,$2,$3,$4)",
+		newID, &med.Name, &med.Count, &med.Price)
 	if err != nil {
 		log.Errorf("database error with create medicine: %v", err)
 		return "", err
@@ -30,8 +30,8 @@ func (p *PRepository) CreateMedicine(ctx context.Context, med *catalog.Medicine)
 // GetMedicineByID select medicine by id
 func (p *PRepository) GetMedicineByID(ctx context.Context, idMedicine string) (*catalog.Medicine, error) {
 	u := catalog.Medicine{}
-	err := p.Pool.QueryRow(ctx, "select name,count,price,id from medicines where id=$4", idMedicine).Scan(
-		&u.Name, &u.Count, &u.Price, &u.Id)
+	err := p.Pool.QueryRow(ctx, "select id,name,count,price from medicine where id=$1", idMedicine).Scan(
+		&u.Id, &u.Name, &u.Count, &u.Price)
 	if err != nil {
 		if err == pgx.ErrNoRows {
 			return &catalog.Medicine{}, fmt.Errorf("medicine with this id doesnt exist: %v", err)
@@ -42,23 +42,23 @@ func (p *PRepository) GetMedicineByID(ctx context.Context, idMedicine string) (*
 	return &u, nil
 }
 
-// GetAllMedicines select all medicines from db
-func (p *PRepository) GetAllMedicines(ctx context.Context) ([]*catalog.Medicine, error) {
+// GetAllMedicine select all medicines from db
+func (p *PRepository) GetAllMedicine(ctx context.Context) ([]*catalog.Medicine, error) {
 	var medicines []*catalog.Medicine
-	rows, err := p.Pool.Query(ctx, "select name,count,price,id from medicines")
+	rows, err := p.Pool.Query(ctx, "select id,name,count,price from medicines")
 	if err != nil {
 		log.Errorf("database error with select all medicines, %v", err)
 		return nil, err
 	}
 	defer rows.Close()
 	for rows.Next() {
-		per := catalog.Medicine{}
-		err = rows.Scan(&per.Name, &per.Count, &per.Price, &per.Id)
+		med := catalog.Medicine{}
+		err = rows.Scan(&med.Id, &med.Name, &med.Count, &med.Price)
 		if err != nil {
 			log.Errorf("database error with select all medicines, %v", err)
 			return nil, err
 		}
-		medicines = append(medicines, &per)
+		medicines = append(medicines, &med)
 	}
 
 	return medicines, nil
@@ -66,7 +66,7 @@ func (p *PRepository) GetAllMedicines(ctx context.Context) ([]*catalog.Medicine,
 
 // DeleteMedicine delete medicine by id
 func (p *PRepository) DeleteMedicine(ctx context.Context, id string) error {
-	a, err := p.Pool.Exec(ctx, "delete from medicines where id=$4", id)
+	a, err := p.Pool.Exec(ctx, "delete from medicines where id=$1", id)
 	if a.RowsAffected() == 0 {
 		return fmt.Errorf("medicine with this id doesnt exist")
 	}
@@ -87,7 +87,7 @@ func (p *PRepository) ChangeMedicine(ctx context.Context, id string, med *catalo
 		return fmt.Errorf("medicine with this id doesnt exist")
 	}
 	if err != nil {
-		log.Errorf("error with update medicine %v", err)
+		log.Errorf("error with update mediciner %v", err)
 		return err
 	}
 	return nil
