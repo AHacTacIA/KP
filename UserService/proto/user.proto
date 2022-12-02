@@ -1,0 +1,86 @@
+syntax = "proto3";
+option go_package = ".";
+
+
+service CRUD{
+  rpc Registration(RegistrationRequest)returns(RegistrationResponse){};
+  rpc GetUser(GetUserRequest)returns(GetUserResponse){};
+  rpc GetAllUsers(GetAllUsersRequest)returns(GetAllUsersResponse);
+  rpc DeleteUser(DeleteUserRequest)returns(Response);
+  rpc UpdateUser(UpdateUserRequest)returns(Response);
+  rpc Authentication(AuthenticationRequest)returns(AuthenticationResponse);
+  rpc RefreshMyTokens(RefreshTokensRequest)returns(RefreshTokensResponse);
+  rpc Logout(LogoutRequest)returns(Response);
+}
+
+
+message GetAllUsersRequest{}
+
+message LogoutRequest{
+  string accessToken=1;
+  string id=2;
+}
+
+message UpdateUserRequest{
+  string accessToken = 1;
+  Person person = 2;
+  string id = 3;
+}
+
+message RegistrationRequest{
+  string name = 2;
+  string position = 3;
+  string password = 4;
+}
+
+
+
+message AuthenticationRequest{
+  string id = 1;
+  string password = 2;
+
+}
+
+message RefreshTokensRequest{
+  string refreshToken = 1;
+}
+message RefreshTokensResponse{
+  string refreshToken = 1;
+  string accessToken = 2;
+}
+
+message GetUserRequest{
+  string accessToken = 1;
+  string id = 2;
+}
+
+message DeleteUserRequest{
+  string accessToken = 1;
+  string id = 2;
+}
+
+message GetUserResponse{
+  Person person = 1;
+}
+
+message RegistrationResponse{
+  string id = 1;
+}
+
+message GetAllUsersResponse{
+  repeated Person persons = 1;
+}
+
+message AuthenticationResponse{
+  string accessToken = 1;
+  string refreshToken = 2;
+}
+
+message Response{}
+
+message Person{
+  string id = 1;
+  string name = 2;
+  string position = 3;
+  string password = 4;
+}

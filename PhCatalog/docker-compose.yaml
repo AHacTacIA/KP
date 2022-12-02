@@ -9,3 +9,14 @@ services:
       - POSTGRES_PASSWORD=catalog
     ports:
       - "5432:5432"
+
+  web:
+    container_name: PhCatalog
+    build:
+      context: .
+    ports:
+      - "50051:50051"
+    environment:
+      - POSTGRES_DB_URL=postgres://postgres:catalog@postgres:5432/catalog?sslmode=disable
+    depends_on:
+      - postgres
