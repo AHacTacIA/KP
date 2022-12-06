@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgres:
+    container_name: user-db
+    image: postgres:latest
+    environment:
+      - POSTGRES_DB=user
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=user
+    ports:
+      - "5436:5432"
+
+  web:
+    container_name: UserService
+    build:
+      context: .
+    ports:
+      - "50052:50051"
+    environment:
+      - POSTGRES_DB_URL=postgres://postgres:user@postgres:5436/user?sslmode=disable
+    depends_on:
+      - postgres

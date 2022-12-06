@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS user(
+CREATE TABLE IF NOT EXISTS users(
                                       id TEXT PRIMARY KEY,
                                       name TEXT UNIQUE NOT NULL,
                                       position INT NOT NULL,

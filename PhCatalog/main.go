@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"github.com/AHacTacIA/KP/PhCatalog/internal/catalog"
 	"github.com/AHacTacIA/KP/PhCatalog/internal/repository"
@@ -8,12 +9,9 @@ import (
 	"github.com/AHacTacIA/KP/PhCatalog/internal/service"
 	pb "github.com/AHacTacIA/KP/PhCatalog/proto"
 
-	"context"
-
 	"github.com/caarlos0/env/v6"
 	"github.com/jackc/pgx/v4/pgxpool"
 	"github.com/labstack/gommon/log"
-
 	"google.golang.org/grpc"
 
 	"net"
@@ -58,7 +56,7 @@ func main() {
 // DBConnection create connection with db
 func DBConnection(cfg *catalog.Config) repository.Repository {
 	log.Info(cfg.PostgresDBURL)
-	poolP, err := pgxpool.Connect(context.Background(), cfg.PostgresDBURL)
+	poolP, err := pgxpool.Connect(context.Background(), cfg.PostgresDBURL) //"postgres://postgres:catalog@postgres:5432/catalog?sslmode=disable"
 	if err != nil {
 		log.Fatalf("bad connection with postgresql: %v", err)
 		return nil

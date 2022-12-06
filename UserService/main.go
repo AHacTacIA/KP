@@ -69,6 +69,5 @@ func DBConnection(cfg *user.Config) repository.Repository {
 		return nil
 	}
 	return &repository.PRepository{Pool: poolP}
-	//return &repository.PRepository{Pool: poolP}
 
 }
