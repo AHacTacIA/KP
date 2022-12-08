@@ -29,11 +29,11 @@ var (
 )
 
 func main() {
-	listen, err := net.Listen("tcp", "localhost:50051")
+	listen, err := net.Listen("tcp", "localhost:8080")
 	if err != nil {
 		defer log.Fatalf("error while listening port: %e", err)
 	}
-	fmt.Println("Server successfully started on port :50051...")
+	fmt.Println("Server successfully started on port :8080..")
 	key := []byte("super-key")
 	cfg := user.Config{JwtKey: key}
 	err = env.Parse(&cfg)

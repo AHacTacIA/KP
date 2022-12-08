@@ -10,13 +10,3 @@ services:
     ports:
       - "5436:5432"
 
-  web:
-    container_name: UserService
-    build:
-      context: .
-    ports:
-      - "50052:50051"
-    environment:
-      - POSTGRES_DB_URL=postgres://postgres:user@postgres:5436/user?sslmode=disable
-    depends_on:
-      - postgres

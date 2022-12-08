@@ -18,7 +18,7 @@ type PRepository struct {
 // CreateMedicine add medicine to db
 func (p *PRepository) CreateMedicine(ctx context.Context, med *catalog.Medicine) (string, error) {
 	newID := uuid.New().String()
-	_, err := p.Pool.Exec(ctx, "insert into medicines(id,name,count,price) values($1,$2,$3,$4)",
+	_, err := p.Pool.Exec(ctx, "insert into medicine(id,name,count,price) values($1,$2,$3,$4)",
 		newID, &med.Name, &med.Count, &med.Price)
 	if err != nil {
 		log.Errorf("database error with create medicine: %v", err)
